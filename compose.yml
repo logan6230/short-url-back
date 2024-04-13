@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  app_short_url_db:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data_container:/data/db
+
+  short_url_app:
+    build: .
+    container_name: short-url-app
+    image: short-url:v2.0.0
+    hostname: localhost
+    ports:
+      - "8086:8080"
+    depends_on:
+      - app_short_url_db
+
+volumes:
+  mongodb_data_container:
